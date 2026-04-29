@@ -36,7 +36,8 @@ reviews README reasoning and git history.
 
 | ID | Commit | Change | Dev score | Intent term | Traj term | Status | Notes |
 |---|---|---|---:|---:|---:|---|---|
-| E0 | pending | Unmodified starter baseline | 0.8311 | 0.856 | 0.806 | baseline | `python grade.py` on the 5k Dev sample; `python -m pytest tests/` passes 8 tests. |
+| E0 | `82fd546` | Unmodified starter baseline | 0.8311 | 0.856 | 0.806 | baseline | `python grade.py` on the 5k Dev sample; `python -m pytest tests/` passes 8 tests. |
+| E1 | pending | ExtraTrees residual trajectory head over constant velocity | 0.7275 | 0.856 | 0.599 | kept | ADE improved from 40.2 px to 29.8 px. Contract tests pass. Row-by-row scoring is noticeably slower, so the next experiment should reduce trajectory inference cost. |
 
 ---
 
