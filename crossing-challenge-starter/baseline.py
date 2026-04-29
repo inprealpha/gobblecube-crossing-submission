@@ -25,7 +25,7 @@ from sklearn.ensemble import ExtraTreesRegressor
 from sklearn.metrics import log_loss
 from xgboost import XGBClassifier
 
-from predict import HORIZON_KEYS, _constant_velocity_centers, _engineered_features, _trajectory_features
+from predict import HORIZON_KEYS, _constant_velocity_centers, _engineered_features, _intent_features, _trajectory_features
 
 DATA = Path(__file__).parent / "data"
 MODEL_PATH = Path(__file__).parent / "model.pkl"
@@ -78,6 +78,10 @@ def mean_ade_from_residuals(pred: np.ndarray, truth: np.ndarray) -> tuple[float,
     return float(ade_by_horizon.mean()), [float(v) for v in ade_by_horizon]
 
 
+def combined_intent_features(req: dict) -> np.ndarray:
+    return _intent_features(req, "combined_v1")
+
+
 def main() -> None:
     print("Loading train + dev...")
     train = pd.read_parquet(DATA / "train.parquet")
@@ -88,34 +92,31 @@ def main() -> None:
 
     print("\nFeaturizing intent...")
     t0 = time.time()
-    X_train = featurize(train)
-    X_dev = featurize(dev)
+    X_train = featurize(train, combined_intent_features)
+    X_dev = featurize(dev, combined_intent_features)
     y_train = train["will_cross_2s"].to_numpy(dtype=np.int32)
     y_dev = dev["will_cross_2s"].to_numpy(dtype=np.int32)
     print(f"  {time.time() - t0:.1f}s  feature shape: {X_train.shape}")
 
     pos_ratio = float(y_train.mean())
 
-    clf = None
-    if MODEL_PATH.exists():
-        with open(MODEL_PATH, "rb") as f:
-            existing_model = pickle.load(f)
-        clf = existing_model.get("intent")
-    if clf is not None:
-        print("\nReusing existing intent model from model.pkl")
-    else:
-        print("\nTraining XGBClassifier (no class rebalancing — want calibrated probs)...")
-        t0 = time.time()
-        clf = XGBClassifier(
-            n_estimators=300,
-            max_depth=5,
-            learning_rate=0.05,
-            tree_method="hist",
-            n_jobs=4,
-            eval_metric="logloss",
-        )
-        clf.fit(X_train, y_train, eval_set=[(X_dev, y_dev)], verbose=False)
-        print(f"  {time.time() - t0:.1f}s")
+    print("\nTraining XGBClassifier on combined intent features...")
+    t0 = time.time()
+    clf = XGBClassifier(
+        n_estimators=160,
+        max_depth=4,
+        learning_rate=0.035,
+        subsample=0.9,
+        colsample_bytree=0.9,
+        min_child_weight=5,
+        reg_lambda=8.0,
+        tree_method="hist",
+        n_jobs=4,
+        eval_metric="logloss",
+        random_state=7,
+    )
+    clf.fit(X_train, y_train, eval_set=[(X_dev, y_dev)], verbose=False)
+    print(f"  {time.time() - t0:.1f}s")
 
     dev_probs = clf.predict_proba(X_dev)[:, 1]
     ll = log_loss(y_dev, np.clip(dev_probs, 1e-6, 1 - 1e-6))
@@ -149,6 +150,7 @@ def main() -> None:
     with open(MODEL_PATH, "wb") as f:
         pickle.dump({
             "intent": clf,
+            "intent_feature_set": "combined_v1",
             "traj": {
                 "kind": "constant_velocity_residual_extratrees",
                 "residual_model": traj_reg,

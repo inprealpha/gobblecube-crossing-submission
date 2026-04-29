@@ -153,6 +153,15 @@ def _trajectory_features(req: dict) -> np.ndarray:
     return np.nan_to_num(arr, nan=0.0, posinf=1.0, neginf=-1.0)
 
 
+def _intent_features(req: dict, feature_set: str, traj_feats: np.ndarray | None = None) -> np.ndarray:
+    base_feats = _engineered_features(req)
+    if feature_set != "combined_v1":
+        return base_feats
+    if traj_feats is None:
+        traj_feats = _trajectory_features(req)
+    return np.concatenate([base_feats, traj_feats]).astype(np.float32, copy=False)
+
+
 def _constant_velocity_centers(req: dict) -> tuple[np.ndarray, float, float]:
     _, cx, cy, w, h = _bbox_series(req)
     w_last = w[-1]
@@ -182,9 +191,11 @@ def _constant_velocity_trajectory(req: dict) -> dict[str, list[float]]:
     return _boxes_from_centers(centers, w_last, h_last)
 
 
-def _residual_trajectory(req: dict, traj_model: dict) -> dict[str, list[float]]:
+def _residual_trajectory(req: dict, traj_model: dict, traj_feats: np.ndarray | None = None) -> dict[str, list[float]]:
     centers, w_last, h_last = _constant_velocity_centers(req)
-    feats = _trajectory_features(req).reshape(1, -1)
+    if traj_feats is None:
+        traj_feats = _trajectory_features(req)
+    feats = traj_feats.reshape(1, -1)
     residual_model = traj_model.get("residual_model")
     if residual_model is not None:
         residuals = np.asarray(residual_model.predict(feats)[0], dtype=np.float64).reshape(len(HORIZON_KEYS), 2)
@@ -210,7 +221,9 @@ def _residual_trajectory(req: dict, traj_model: dict) -> dict[str, list[float]]:
 def predict(request: dict) -> dict:
     model = _load_model()
     intent_model = model["intent"]
-    feats = _engineered_features(request).reshape(1, -1)
+    intent_feature_set = model.get("intent_feature_set", "starter_v1")
+    traj_feats = _trajectory_features(request) if intent_feature_set == "combined_v1" else None
+    feats = _intent_features(request, intent_feature_set, traj_feats).reshape(1, -1)
     if not np.isfinite(feats).all():
         feats = np.nan_to_num(feats, nan=0.0, posinf=1.0, neginf=-1.0)
     intent_prob = float(intent_model.predict_proba(feats)[0, 1])
@@ -221,7 +234,7 @@ def predict(request: dict) -> dict:
     if traj_model is None:
         out = _constant_velocity_trajectory(request)
     else:
-        out = _residual_trajectory(request, traj_model)
+        out = _residual_trajectory(request, traj_model, traj_feats)
     for k in HORIZON_KEYS:
         out[k] = [float(v) if np.isfinite(v) else 0.0 for v in out[k]]
     out["intent"] = intent_prob
