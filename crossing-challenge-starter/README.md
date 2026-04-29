@@ -4,6 +4,42 @@
 
 ---
 
+## Candidate Notes
+
+### Challenge Choice
+
+I am solving the **Crossing Challenge** rather than the ETA Challenge.
+Both are useful builder signals, but Crossing is the better fit for an
+Auto Research loop in this repo because the train/dev data is already
+checked in, the local grader is fast, and the score decomposes cleanly
+into intent calibration and trajectory ADE. That makes it possible to
+run many small experiments, keep the git history honest, and learn from
+failed attempts without waiting on a large external data download.
+
+The first scoring read also exposed a clear path: the baseline already
+has a reasonable intent classifier, while the constant-velocity
+trajectory degrades badly at long horizons. Since trajectory is half of
+the composite score and bbox scoring uses centers, the highest-leverage
+initial work is to improve future center prediction while keeping the
+submission small and CPU-friendly.
+
+### Auto Research Adaptation
+
+I am following the spirit of Karpathy's Auto Research approach: lock down
+the baseline, make one measurable change at a time, grade it with the
+same command, keep the README as an experiment log, and commit each
+meaningful step. Unlike the original repo's habit of discarding failed
+branches, I keep the process visible here because Gobblecube explicitly
+reviews README reasoning and git history.
+
+### Experiment Log
+
+| ID | Commit | Change | Dev score | Intent term | Traj term | Status | Notes |
+|---|---|---|---:|---:|---:|---|---|
+| E0 | pending | Unmodified starter baseline | 0.8311 | 0.856 | 0.806 | baseline | `python grade.py` on the 5k Dev sample; `python -m pytest tests/` passes 8 tests. |
+
+---
+
 ## The Problem
 
 You've joined the perception team at a startup building a fleet of
