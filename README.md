@@ -1,58 +1,74 @@
-# Gobblecube AI Builder Take-Home
+# Gobblecube Crossing Submission
 
-We're hiring **AI Builders**: engineers who pick up unfamiliar problems,
-figure them out with whatever tools help, and ship something that works.
-Pick one of the two challenges below, build a working Dockerized
-submission, and send us the repo link when it's something you'd put
-your name on.
+This repository contains my submission for the **Gobblecube AI Builder
+Take-Home**, and I chose the **Crossing Challenge**.
 
-## The two challenges
+If you were thinking of the **ETA baseline around 359 seconds**, that is
+the other challenge. I did **not** submit the ETA challenge. For the
+Crossing challenge, the local starter baseline I measured was **0.8311**
+on the 5k Dev sample, and the current best version in this repo scores
+**0.7102**.
 
-- **[The ETA Challenge](./eta-challenge-starter/):** ride-hailing ETA
-  prediction on public NYC taxi data. Regress a single number: trip
-  duration in seconds. Scored on MAE against a held-out 2024 slice.
-  The repo baseline lands at ~367 s there.
-- **[The Crossing Challenge](./crossing-challenge-starter/):** pedestrian
-  crossing-intent + 2-second trajectory for a slow-speed autonomous
-  delivery vehicle. Scored on a joint BCE + pixel-ADE composite, each
-  term normalized so "do nothing" = 1.0. The repo baseline lands at
-  0.74 there.
+## What This Submission Does
 
-Pick **one**. One submission per candidate.
+The task is to predict two things from about one second of recent
+pedestrian motion:
 
-## How grading works
+1. Whether the pedestrian will start crossing within the next 2 seconds.
+2. Where the pedestrian's bounding box will be at 0.5, 1.0, 1.5, and
+   2.0 seconds into the future.
 
-The two challenges have **separate leaderboards**. You are not ranked
-against candidates who picked the other one. A strong Crossing submission
-and a strong ETA submission are treated as equivalent signal for the role.
+The final system keeps the starter repo's basic shape, but improves both
+parts of the prediction:
 
-Each starter README explains what its scoring harness does. Beat the
-baseline by as much as you can; we'll tell you how it stacks up.
+- The **intent** model uses a richer set of motion features and an
+  XGBoost classifier.
+- The **trajectory** model learns corrections on top of the simple
+  constant-velocity baseline using an ExtraTrees regressor.
 
-## Same rules either way
+## Current Result
 
-- Submit a **public GitHub repo** containing `predict.py`, a `Dockerfile`,
-  your trained weights, and a README. Details and constraints (image size,
-  runtime limits, disqualifiers) live in each starter's README. Read the
-  one you pick carefully.
-- Use whatever AI tooling helps you ship. Claude Code is our in-house
-  favourite, but Codex, Cursor, Copilot, plain-API integrations, or no LLM at all are
-  fine. We're scoring the submission, not the toolchain. Your git
-  history is part of what we look at.
-- No external API calls at inference time, no collaborators, no training on
-  the Eval set.
-- Include the Claude.md/Agents.md and relevant markdown files with the submission
+- Challenge chosen: **Crossing Challenge**
+- Baseline measured locally: **0.8311**
+- Current best measured locally: **0.7102**
+- Validation command: `python grade.py`
+- Tests: `python -m pytest tests/` and `python tests/smoke.py`
 
-## What we actually care about
+Lower is better for this challenge.
 
-A clean submission with an honest README will beat a slightly better score
-with no write-up. We read three things, roughly in this order:
+## Where To Start
 
-1. **Do you ship?** The number on the leaderboard.
-2. **Can you learn fast?** Your git log shows the trajectory. First
-   commits rarely look like final ones.
-3. **Can you reason about a problem that wasn't handed to you as a spec?**
-   Your README explains what you tried, what failed, and what the next
-   experiment would be if you kept going.
+- Main technical writeup: `crossing-challenge-starter/README.md`
+- Plain-language explanation: `docs/plain-language-walkthrough.md`
+- Iteration story: `docs/iteration-story.md`
+- Repo map: `docs/repo-map.md`
+- Submission checklist: `docs/submission-checklist.md`
+- Agent/tooling note: `AGENTS.md`
 
-Submit your repo URL to agentic-hiring@gobblecube.ai.
+## Repo Layout
+
+- `crossing-challenge-starter/`
+  This is the actual submission work.
+- `docs/`
+  Human-friendly explanations of what was done and why.
+- `eta-challenge-starter/`
+  Left in place from the original source repo for reference only. It is
+  not part of the chosen submission.
+
+## Reproduce The Current Local Result
+
+From `crossing-challenge-starter/`:
+
+```bash
+python baseline.py
+python grade.py
+python -m pytest tests/
+python tests/smoke.py
+```
+
+## Notes
+
+- The local workspace did not have Docker installed, so I could not run a
+  final `docker build` verification here.
+- The submission code itself does not call external services at inference
+  time. It loads only local files, especially `model.pkl`.

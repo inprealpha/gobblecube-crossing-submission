@@ -6,6 +6,13 @@
 
 ## Candidate Notes
 
+Supporting docs outside this folder:
+
+- Plain-language walkthrough: `../docs/plain-language-walkthrough.md`
+- Iteration story: `../docs/iteration-story.md`
+- Repo map: `../docs/repo-map.md`
+- Submission checklist: `../docs/submission-checklist.md`
+
 ### Challenge Choice
 
 I am solving the **Crossing Challenge** rather than the ETA Challenge.
