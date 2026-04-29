@@ -13,9 +13,6 @@ This document explains what each folder is for.
   Human-friendly supporting documents.
 - `crossing-challenge-starter/`
   The actual submission work for the chosen challenge.
-- `eta-challenge-starter/`
-  Original unused starter for the other challenge. Kept only as source
-  context from the original repo.
 
 ## docs/
 
@@ -67,8 +64,3 @@ This is the important folder for the chosen submission.
   Contract tests for prediction shape and safety.
 - `smoke.py`
   Minimal smoke test for the prediction interface.
-
-## eta-challenge-starter/
-
-This folder belongs to the original source repo. I inspected it during
-challenge selection, but it is not the work I chose to submit.

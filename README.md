@@ -3,11 +3,8 @@
 This repository contains my submission for the **Gobblecube AI Builder
 Take-Home**, and I chose the **Crossing Challenge**.
 
-If you were thinking of the **ETA baseline around 359 seconds**, that is
-the other challenge. I did **not** submit the ETA challenge. For the
-Crossing challenge, the local starter baseline I measured was **0.8311**
-on the 5k Dev sample, and the current best version in this repo scores
-**0.7102**.
+The local starter baseline I measured was **0.8311** on the 5k Dev
+sample, and the current best version in this repo scores **0.7102**.
 
 ## What This Submission Does
 
@@ -51,9 +48,6 @@ Lower is better for this challenge.
   This is the actual submission work.
 - `docs/`
   Human-friendly explanations of what was done and why.
-- `eta-challenge-starter/`
-  Left in place from the original source repo for reference only. It is
-  not part of the chosen submission.
 
 ## Reproduce The Current Local Result
 

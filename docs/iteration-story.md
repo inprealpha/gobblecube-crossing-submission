@@ -4,14 +4,10 @@ This document explains the project as a step-by-step story.
 
 ## 1. Starting from the original repo
 
-The original GitHub repository had two completely different challenges.
-
-- `eta-challenge-starter/`
-- `crossing-challenge-starter/`
-
-I inspected both before choosing one. The Crossing challenge was the
-better choice for fast local iteration because the data was already in
-the repo and the feedback loop was fast.
+The original GitHub repository offered multiple challenge options.
+I inspected the available paths before choosing one. The Crossing
+challenge was the better choice for fast local iteration because the
+data was already in the repo and the feedback loop was fast.
 
 ## 2. Measuring before changing anything
 
@@ -117,7 +113,7 @@ I used subagents as disposable helpers for focused questions.
 
 Examples:
 
-- compare ETA vs Crossing before choosing
+- compare challenge options before choosing
 - summarize the Auto Research process from Karpathy's repo
 - benchmark trajectory model families and sizes
 - benchmark intent model options

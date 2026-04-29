@@ -47,14 +47,10 @@ mind.
 
 That is why the trajectory part was the biggest early weakness.
 
-## Why did we choose the Crossing challenge instead of ETA?
+## Why did we choose this challenge?
 
-There were two challenges in the original repo.
-
-- ETA prediction
-- Crossing prediction
-
-I chose Crossing for a practical reason: it gave faster learning loops.
+I chose this challenge for a practical reason: it gave faster learning
+loops.
 
 - The training and dev data were already inside the repo.
 - The grader was quick to run locally.

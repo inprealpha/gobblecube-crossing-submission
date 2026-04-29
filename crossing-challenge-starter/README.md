@@ -15,8 +15,7 @@ Supporting docs outside this folder:
 
 ### Challenge Choice
 
-I am solving the **Crossing Challenge** rather than the ETA Challenge.
-Both are useful builder signals, but Crossing is the better fit for an
+I am solving the **Crossing Challenge**. It was the better fit for an
 Auto Research loop in this repo because the train/dev data is already
 checked in, the local grader is fast, and the score decomposes cleanly
 into intent calibration and trajectory ADE. That makes it possible to
