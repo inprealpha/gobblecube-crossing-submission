@@ -37,7 +37,8 @@ reviews README reasoning and git history.
 | ID | Commit | Change | Dev score | Intent term | Traj term | Status | Notes |
 |---|---|---|---:|---:|---:|---|---|
 | E0 | `82fd546` | Unmodified starter baseline | 0.8311 | 0.856 | 0.806 | baseline | `python grade.py` on the 5k Dev sample; `python -m pytest tests/` passes 8 tests. |
-| E1 | pending | ExtraTrees residual trajectory head over constant velocity | 0.7275 | 0.856 | 0.599 | kept | ADE improved from 40.2 px to 29.8 px. Contract tests pass. Row-by-row scoring is noticeably slower, so the next experiment should reduce trajectory inference cost. |
+| E1 | `e7d419e` | ExtraTrees residual trajectory head over constant velocity | 0.7275 | 0.856 | 0.599 | superseded | ADE improved from 40.2 px to 29.8 px. Contract tests passed. Row-by-row scoring was noticeably slower, so the next experiment reduced trajectory inference cost. |
+| E2 | pending | Smaller ExtraTrees residual head, 40 trees and leaf size 15 | 0.7224 | 0.856 | 0.589 | kept | ADE improved to 29.3 px on the 5k Dev sample. `model.pkl` is 15 MB. `python -m pytest tests/` passes 8 tests. |
 
 ---
 

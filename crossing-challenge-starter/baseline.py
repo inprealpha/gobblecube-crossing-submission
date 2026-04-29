@@ -133,10 +133,10 @@ def main() -> None:
     print("\nTraining trajectory residual regressor...")
     t0 = time.time()
     traj_reg = ExtraTreesRegressor(
-        n_estimators=240,
-        min_samples_leaf=25,
+        n_estimators=40,
+        min_samples_leaf=15,
         random_state=7,
-        n_jobs=-1,
+        n_jobs=1,
     )
     traj_reg.fit(X_train_traj, y_train_traj)
     dev_residual_preds = traj_reg.predict(X_dev_traj).astype(np.float32)
