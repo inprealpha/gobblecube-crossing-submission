@@ -37,6 +37,12 @@ reviews README reasoning and git history.
 Current best: `57ee7db`, scoring `0.7102` on the local 5k Dev sample
 with intent term `0.831` and trajectory term `0.589`.
 
+Latest local validation: `python grade.py` scores `0.7102`,
+`python -m pytest tests/` passes 8 tests, and `python tests/smoke.py`
+passes. I could not run the Docker build in this workspace because the
+`docker` CLI is not installed, so that remains the main packaging check
+to run before submission.
+
 | ID | Commit | Change | Dev score | Intent term | Traj term | Status | Notes |
 |---|---|---|---:|---:|---:|---|---|
 | E0 | `82fd546` | Unmodified starter baseline | 0.8311 | 0.856 | 0.806 | baseline | `python grade.py` on the 5k Dev sample; `python -m pytest tests/` passes 8 tests. |
