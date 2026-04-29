@@ -34,12 +34,15 @@ reviews README reasoning and git history.
 
 ### Experiment Log
 
+Current best: `57ee7db`, scoring `0.7102` on the local 5k Dev sample
+with intent term `0.831` and trajectory term `0.589`.
+
 | ID | Commit | Change | Dev score | Intent term | Traj term | Status | Notes |
 |---|---|---|---:|---:|---:|---|---|
 | E0 | `82fd546` | Unmodified starter baseline | 0.8311 | 0.856 | 0.806 | baseline | `python grade.py` on the 5k Dev sample; `python -m pytest tests/` passes 8 tests. |
 | E1 | `e7d419e` | ExtraTrees residual trajectory head over constant velocity | 0.7275 | 0.856 | 0.599 | superseded | ADE improved from 40.2 px to 29.8 px. Contract tests passed. Row-by-row scoring was noticeably slower, so the next experiment reduced trajectory inference cost. |
 | E2 | `7395ff3` | Smaller ExtraTrees residual head, 40 trees and leaf size 15 | 0.7224 | 0.856 | 0.589 | superseded | ADE improved to 29.3 px on the 5k Dev sample. `model.pkl` shrank to 15 MB. `python -m pytest tests/` passed 8 tests. |
-| E3 | pending | Combined-feature XGBoost intent model plus shared trajectory features | 0.7102 | 0.831 | 0.589 | kept | BCE improved from 0.2129 to 0.2069 on the 5k Dev sample. Feature reuse cut measured local latency to 1.73 ms/request on 500 rows. Tests pass. |
+| E3 | `57ee7db` | Combined-feature XGBoost intent model plus shared trajectory features | 0.7102 | 0.831 | 0.589 | kept | BCE improved from 0.2129 to 0.2069 on the 5k Dev sample. Feature reuse cut measured local latency to 1.73 ms/request on 500 rows. Tests pass. |
 
 ---
 
