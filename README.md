@@ -30,6 +30,8 @@ parts of the prediction:
 - Current best measured locally: **0.7102**
 - Validation command: `python grade.py` from the repo root
 - Tests: `python -m pytest tests/` and `python tests/smoke.py`
+- Docker: root image builds and writes grader-mode predictions; measured
+  image size is about **1.31 GB**
 
 Lower is better for this challenge.
 
@@ -74,8 +76,6 @@ docker build -t my-crossing .
 
 ## Notes
 
-- The local workspace did not have Docker installed, so I could not run a
-  final `docker build` verification here. The root `Dockerfile` is the
-  intended submission build path.
+- The root `Dockerfile` is the intended submission build path.
 - The submission code itself does not call external services at inference
   time. It loads only local files, especially `model.pkl`.

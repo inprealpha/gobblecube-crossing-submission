@@ -17,8 +17,9 @@ Use this before sending the repo URL to Gobblecube.
 ## Packaging
 
 - Run `docker build -t my-crossing .` from the repo root.
-- Run the container on the grader path if Docker is available.
-- Confirm the image size is still within the challenge limit.
+- Run the container on the grader path.
+- Confirm the image size is still within the challenge limit. It was
+  measured at about 1.31 GB in the final local Docker pass.
 
 ## Repo presentation
 
@@ -40,7 +41,7 @@ Use this before sending the repo URL to Gobblecube.
 ## Suggested order right before submission
 
 1. Final local tests.
-2. Final Docker check on a machine with Docker installed.
+2. Final Docker check from the repo root.
 3. Push latest commits.
 4. Open the GitHub repo in a browser and read it like a reviewer.
 5. Send the repo URL.

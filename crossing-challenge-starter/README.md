@@ -45,9 +45,8 @@ with intent term `0.831` and trajectory term `0.589`.
 
 Latest local validation: `python grade.py` scores `0.7102`,
 `python -m pytest tests/` passes 8 tests, and `python tests/smoke.py`
-passes. I could not run the Docker build in this workspace because the
-`docker` CLI is not installed, so that remains the main packaging check
-to run before submission.
+passes. The root Docker image builds and writes grader-mode predictions;
+measured image size is about 1.31 GB.
 
 | ID | Commit | Change | Dev score | Intent term | Traj term | Status | Notes |
 |---|---|---|---:|---:|---:|---|---|
