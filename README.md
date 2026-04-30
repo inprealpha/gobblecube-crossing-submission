@@ -28,7 +28,7 @@ parts of the prediction:
 - Challenge chosen: **Crossing Challenge**
 - Baseline measured locally: **0.8311**
 - Current best measured locally: **0.7102**
-- Validation command: `python grade.py`
+- Validation command: `python grade.py` from the repo root
 - Tests: `python -m pytest tests/` and `python tests/smoke.py`
 
 Lower is better for this challenge.
@@ -51,7 +51,13 @@ Lower is better for this challenge.
 
 ## Reproduce The Current Local Result
 
-From `crossing-challenge-starter/`:
+From the repo root:
+
+```bash
+crossing-challenge-starter/.venv/bin/python grade.py
+```
+
+Or, from `crossing-challenge-starter/`:
 
 ```bash
 python baseline.py
@@ -60,9 +66,16 @@ python -m pytest tests/
 python tests/smoke.py
 ```
 
+Build the submission image from the repo root:
+
+```bash
+docker build -t my-crossing .
+```
+
 ## Notes
 
 - The local workspace did not have Docker installed, so I could not run a
-  final `docker build` verification here.
+  final `docker build` verification here. The root `Dockerfile` is the
+  intended submission build path.
 - The submission code itself does not call external services at inference
   time. It loads only local files, especially `model.pkl`.

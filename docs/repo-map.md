@@ -7,6 +7,9 @@ This document explains what each folder is for.
 - `README.md`
   Submission landing page. This is the best place for a reviewer to
   start.
+- `Dockerfile`, `predict.py`, `grade.py`, `requirements.txt`, `model.pkl`
+  Root-level submission surface. These files let the grader build and
+  run from the repository root.
 - `AGENTS.md`
   Short note about the agent workflow and repo-specific instructions.
 - `docs/`

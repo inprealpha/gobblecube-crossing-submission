@@ -1,0 +1,11 @@
+.git
+**/.venv
+**/__pycache__
+**/*.pyc
+.DS_Store
+
+# The grader supplies input parquet files at runtime. Training/dev data is
+# useful in the repo, but should not inflate the submission image.
+crossing-challenge-starter/data/
+eta-challenge-starter/
+docs/

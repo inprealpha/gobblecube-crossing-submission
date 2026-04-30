@@ -4,16 +4,19 @@ Use this before sending the repo URL to Gobblecube.
 
 ## Score and validation
 
-- Run `python baseline.py` inside `crossing-challenge-starter/` if you
-  want to rebuild `model.pkl` from scratch.
-- Run `python grade.py` and confirm the score is still around `0.7102`.
+- Run `python grade.py` from the repo root and confirm the score is still
+  around `0.7102`.
+- Run `python baseline.py` inside `crossing-challenge-starter/` only if
+  you want to rebuild `model.pkl` from scratch.
+- If you rebuild inside `crossing-challenge-starter/`, copy the refreshed
+  `crossing-challenge-starter/model.pkl` to the root `model.pkl` before
+  building Docker.
 - Run `python -m pytest tests/`.
 - Run `python tests/smoke.py`.
 
 ## Packaging
 
-- Run `docker build -t my-crossing .` inside
-  `crossing-challenge-starter/`.
+- Run `docker build -t my-crossing .` from the repo root.
 - Run the container on the grader path if Docker is available.
 - Confirm the image size is still within the challenge limit.
 
